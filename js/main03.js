@@ -1,15 +1,19 @@
 let cubeTotal = 0;
+let oldRandom,
+  random = 0;
 const cubeBox = $("#main #cubeBox");
 const paginationUL = $(".pagination ul");
+const playOrPause = $(".pagination .btns button");
+
 const cube = `
   <div class="scene">
     <div class="cube">
-      <div class="face front">b</div>
-      <div class="face back">b</div>
-      <div class="face top">b</div>
-      <div class="face bottom">b</div>
-      <div class="face left">b</div>
-      <div class="face right">b</div>
+      <div class="face front">건</div>
+      <div class="face back">동</div>
+      <div class="face top">비</div>
+      <div class="face bottom">김</div>
+      <div class="face left">예</div>
+      <div class="face right">령</div>
     </div>
   </div>
 `;
@@ -37,10 +41,10 @@ const famousList = [
   "오늘 할 수 있는 일에 전력을 다하라. 그러면 내일에는 한걸음 더 진보한다.",
 ];
 
+//가장 긴 격언의 글자수만큼 cubeTotal값 설정
 let array = [];
 $.each(famousList, function (idx, item) {
   array.push(item.length);
-  //   cubeTotal = Math.max(item.length);
   //   console.log(item.length, "/");
 });
 cubeTotal = Math.max.apply(null, array);
@@ -54,7 +58,14 @@ function makeCube() {
   cubeBox.html(output);
 }
 
-const random = 0;
+const rotationArray = [
+  { tx: 0, ty: 0 },
+  { tx: 0, ty: -180 },
+  { tx: 0, ty: 90 },
+  { tx: 0, ty: -90 },
+  { tx: -90, ty: 0 },
+  { tx: 90, ty: 0 },
+];
 //큐브에 글자 넣기
 function showTxt(famousListIdx) {
   $("#cubeBox .scene").show();
@@ -97,30 +108,58 @@ function makePaginationItem() {
     }
   }
   paginationUL.html(output);
-  clickPaginationItem();
 }
 
 function clickPaginationItem() {
   paginationUL.on("click", "li", function () {
     if ($(this).hasClass("on")) return;
     $(this).addClass("on").siblings("li").removeClass("on");
+    random = Math.floor(Math.random() * 6);
+    if (random === oldRandom) {
+      random = (random + 1) % 6;
+    }
     showTxt($(this).index());
-    console.log(famousList[$(this).index()].length);
+    gsap.to("#cubeBox .scene .cube", {
+      rotateY: rotationArray[random].ty,
+      rotateX: rotationArray[random].tx,
+      z: -40,
+      ease: "back.inOut",
+      duration: 1.25,
+      stagger: {
+        from: "random",
+        // each: 0.1,
+        amount: 0.5,
+      },
+    });
+    oldRandom = random;
+  });
+}
+
+function AutomaticPlayback(loopOrNot) {
+  if (loopOrNot === true) {
+  } else {
+    return;
+  }
+}
+
+function clickPlayOrPauseBtn() {
+  playOrPause.on("click", function () {
+    // $(this).css({ diplay: "none" });
+    $(this).addClass("none").siblings("button").removeClass("none");
+    // $(this).siblings("button").css({ diplay: "block" });
+    // $(this).siblings("button").addClass("on");
+    // console.log($(this));
+    // console.log($(this)[0].classList[0]);
+    if ($(this)[0].classList[0] === "play") {
+      AutomaticPlayback(true);
+    } else {
+      AutomaticPlayback(false);
+    }
   });
 }
 
 makeCube();
 showTxt(0);
 makePaginationItem();
-
-// gsap.to("#cubeBox .scene .cube", {
-//   rotateY: -90,
-//   rotateX: 0,
-//   ease: "back.inOut",
-//   duration: 1.25,
-//   stagger: {
-//     from: "random",
-//     // each: 0.1,
-//     amount: 1,
-//   },
-// });
+clickPaginationItem();
+clickPlayOrPauseBtn();
