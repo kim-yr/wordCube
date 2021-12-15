@@ -35,6 +35,10 @@ img {
   z-index: 99;
   #logo {
     @include absCenter();
+    font-size: 24px;
+    strong{
+    font-weight: 700;
+    }   
     img {
       height: 20px;
     }

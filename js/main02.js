@@ -2,6 +2,7 @@ const w = 1200;
 const total = $(".carousel .face").length;
 const angle = 360 / total;
 const tz = Math.round(w / 2 / Math.tan(Math.PI / total));
+const cardNum = 8;
 let tr = 0;
 console.log(tz);
 $(".carousel").css({ transform: `translateZ(-${tz}px)` });
@@ -36,3 +37,15 @@ $(".pagination button").on("click", function () {
   }
   gsap.to(".carousel", { rotateY: tr, duration: 1 });
 });
+
+$(".face").append(`<ul class="deck"></ul>`);
+let output = "";
+for (let i = 0; i < cardNum; i++) {
+  output += `
+    <li class="card">
+            <div class="front"></div>
+            <div class="back"></div>
+    </li>
+    `;
+}
+//ul태그 생성 성공, li붙이는거 할 차례
