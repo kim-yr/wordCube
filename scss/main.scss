@@ -1,0 +1,57 @@
+@import "vars";
+@import "mixins";
+$cube-width:400px;
+#main {
+  @include flexCenter();
+  width: 100%;
+  height: 100vh;
+  .scene {
+    width: $cube-width;
+    height: $cube-width;
+    perspective: 1000px;
+    .cube {
+      @include wh100();
+      position: relative;
+      transform-style: preserve-3d;
+      // transform: rotateX(45deg) rotateY(45deg);
+      .face {
+        position: absolute;
+        @include wh100();
+        @include flexCenter();
+        color: #fff;
+        font-size: 24px;
+        font-weight: 700;
+        // opacity: 0.5;
+        &.right { transform: rotateY(90deg) translateZ($cube-width / 2); background-color: rgb(0, 171, 177);}
+        &.left { transform: rotateY(-90deg) translateZ($cube-width / 2); background-color: rgb(196, 0, 0);}
+        &.top {transform: rotateX(90deg) translateZ($cube-width / 2); background-color: rgb(240, 100, 0);}
+        &.bottom {transform: rotateX(-90deg) translateZ($cube-width / 2); background-color: rgb(0, 179, 0);}
+        &.front {transform: rotateY(0) translateZ($cube-width / 2); background-color: rgb(134, 0, 201);}
+        &.back {transform: rotateY(180deg) translateZ($cube-width / 2); background-color: rgb(248, 178, 0);}
+      }
+    }
+  }
+  .pagination{
+    position: absolute;
+    bottom: 50px;
+    width: 100%;
+    ul{
+      display: flex;
+      justify-content: center;
+      li{
+        width: 30px;
+        height: 30px;
+        border: 2px solid #000;
+        @include flexCenter();
+        background-color: #fff;
+        margin: 0 2px;
+        cursor: pointer;
+        &.on{
+          background-color: #000;
+          color: #fff;
+          transition: 0.25s ease;
+        }
+      }
+    }
+  }
+}
