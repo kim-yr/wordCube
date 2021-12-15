@@ -8,6 +8,8 @@ body {
   font-family: "Titillium Web", "Raleway", "Noto Sans KR", sans-serif;
   background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05) 1px, 0, transparent 5%) #333;
   color: #111;
+  overflow: hidden;
+
 }
 a {
   color: inherit;
@@ -32,9 +34,7 @@ img {
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
   z-index: 99;
   #logo {
-    position: absolute;
-    height: 50px;
-    padding: 15px 20px;
+    @include absCenter();
     img {
       height: 20px;
     }

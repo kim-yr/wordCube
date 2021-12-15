@@ -7,13 +7,13 @@ $transZ: 2400px;
   height: 100vh;
   .scene {
     width: 1200px;
-    height: 550px;
+    height: 600px;
     perspective: 1000px;
     .carousel {
       @include wh100();
       position: relative;
       transform-style: preserve-3d;
-      transform: translateZ(-2400px);
+    //   transform: translateZ(-2400px);
       .face {
         position: absolute;
         @include wh100();
@@ -22,7 +22,8 @@ $transZ: 2400px;
         background-color: #111;
         font-size: 36px;
         font-weight: 700;
-        opacity: 0.5;
+        opacity: 0.7;
+        //10n+1 : 1번과 11번, 21번,, 에 같은 css를 적용한다는 의미
         &:nth-child(10n+1){background-color: rgb(255, 0, 0);}
         &:nth-child(10n+2){background-color: rgb(255, 72, 0);}
         &:nth-child(10n+3){background-color: rgb(255, 174, 0);}
@@ -40,23 +41,19 @@ $transZ: 2400px;
     position: absolute;
     bottom: 50px;
     width: 100%;
-    ul{
-      display: flex;
-      justify-content: center;
-      li{
-        width: 30px;
-        height: 30px;
-        border: 2px solid #000;
+    display: flex;
+    justify-content: center;
+    button{
+        width: 50px;
+        height: 50px;
         @include flexCenter();
-        background-color: #fff;
-        margin: 0 2px;
+        // background-color: cornsilk;
+        margin: 0 10px;
         cursor: pointer;
-        &.on{
-          background-color: #000;
-          color: #fff;
-          transition: 0.25s ease;
+        .material-icons{
+            font-size: 48px;
+            color: #fff;
         }
-      }
     }
   }
 }
