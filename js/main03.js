@@ -94,6 +94,18 @@ function showTxt(famousListIdx) {
       $("#cubeBox .scene").eq(i).hide();
     }
   }
+  gsap.to("#cubeBox .scene .cube", {
+    rotateY: rotationArray[random].ty,
+    rotateX: rotationArray[random].tx,
+    z: -40,
+    ease: "back.inOut",
+    duration: 1.25,
+    stagger: {
+      from: "random",
+      // each: 0.1,
+      amount: 0.5,
+    },
+  });
 }
 
 //페이지 버튼 생성 함수
@@ -119,27 +131,68 @@ function clickPaginationItem() {
       random = (random + 1) % 6;
     }
     showTxt($(this).index());
-    gsap.to("#cubeBox .scene .cube", {
-      rotateY: rotationArray[random].ty,
-      rotateX: rotationArray[random].tx,
-      z: -40,
-      ease: "back.inOut",
-      duration: 1.25,
-      stagger: {
-        from: "random",
-        // each: 0.1,
-        amount: 0.5,
-      },
-    });
+    // gsap.to("#cubeBox .scene .cube", {
+    //   rotateY: rotationArray[random].ty,
+    //   rotateX: rotationArray[random].tx,
+    //   z: -40,
+    //   ease: "back.inOut",
+    //   duration: 1.25,
+    //   stagger: {
+    //     from: "random",
+    //     // each: 0.1,
+    //     amount: 0.5,
+    //   },
+    // });
     oldRandom = random;
   });
 }
 
-function AutomaticPlayback(loopOrNot) {
-  if (loopOrNot === true) {
-  } else {
-    return;
-  }
+let isStop = false;
+// function AutomaticPlayback(stop) {
+//   let interval = setInterval(() => {
+//     // console.log(num);
+//     // showTxt(num);
+//     // num = (num + 1) % famousList.length;
+//     //   console.log(num);
+//     if (stop === true) {
+//       num = 0;
+//       clearInterval(interval);
+//       console.log("탈출");
+//       return;
+//     }
+//   }, 1000);
+// }
+let num = 0;
+function AutomaticPlayback() {
+  const interval = setInterval(function () {
+    if (!isStop) {
+      //   console.log("진행시켜");
+      showTxt(num);
+      gsap.to("#cubeBox .scene .cube", {
+        rotateY: rotationArray[random].ty,
+        rotateX: rotationArray[random].tx,
+        z: -40,
+        ease: "back.inOut",
+        duration: 1.25,
+        stagger: {
+          from: "random",
+          // each: 0.1,
+          amount: 0.5,
+        },
+      });
+      num = (num + 1) % famousList.length;
+      console.log(num);
+    } else {
+      console.log("stopped");
+      clearInterval(interval);
+      isStop = false;
+      // 밖에서 선언한 interval을 안에서 중지시킬 수 있음
+    }
+  }, 1000);
+}
+
+function stop() {
+  isStop = true;
 }
 
 function clickPlayOrPauseBtn() {
@@ -151,9 +204,9 @@ function clickPlayOrPauseBtn() {
     // console.log($(this));
     // console.log($(this)[0].classList[0]);
     if ($(this)[0].classList[0] === "play") {
-      AutomaticPlayback(true);
-    } else {
-      AutomaticPlayback(false);
+      AutomaticPlayback();
+    } else if ($(this)[0].classList[0] === "pause") {
+      stop();
     }
   });
 }
